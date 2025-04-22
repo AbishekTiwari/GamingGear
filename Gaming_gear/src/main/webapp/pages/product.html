@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Product Listing</title>
+    <style>
+        .pro {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-p {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    padding: 15px;
+}
+
+.image {
+    flex: 1;
+}
+
+.image img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.details {
+    flex: 2;
+    padding-left: 20px;
+}
+
+h2 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.rating {
+    color: #f39c12;
+    font-size: 16px;
+}
+
+.price {
+    font-size: 20px;
+    color: #27ae60;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.availability {
+    font-weight: bold;
+}
+
+button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #219150;
+}
+
+.bundle, .protection {
+    margin: 10px 0;
+    background: #f1c40f;
+    padding: 10px;
+    border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><img src="../images/logo.png" width="80px" height="80px"></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="product.html">Product</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html" class="user-icon"><img src="../images/user.png" alt="User" width="20px" height="20px"></a></li>
+            <li> <a href="cart.html" class="icon"><img src="../images/cart.png" alt="Cart" width="20px" height="20px"></a></li> 
+        </ul>
+    </nav>
+<div class="pro">
+    <div class="product-list">
+        <div class="product-p">
+            <div class="image">
+                <img src="gateway.jpg" alt="Gateway Chromebook">
+            </div>
+            <div class="details">
+                <h2>Gateway Chromebook 314 - CBO314-1H-C4CU</h2>
+                <p>Part Number: NX.Y5VAA.001</p>
+                <p class="rating">★★★★★ (2)</p>
+                <p class="price"><span class="old-price">$249.99</span> $199.99</p>
+                <p class="availability">Availability: <span>IN STOCK</span></p>
+                <label>Quantity: <input type="number" value="1"></label>
+                <button class="add-cart">ADD TO CART</button>
+                <button class="view-details">VIEW DETAILS</button>
+            </div>
+        </div>
+
+        <div class="product-p">
+            <div class="image">
+                <img src="gateway.jpg" alt="Gateway Chromebook">
+            </div>
+            <div class="details">
+                <h2>Gateway Chromebook 314 - CBO314-1H-C4CU</h2>
+                <p>Part Number: NX.Y5VAA.001</p>
+                <p class="rating">★★★★★ (2)</p>
+                <p class="price"><span class="old-price">$249.99</span> $199.99</p>
+                <p class="availability">Availability: <span>IN STOCK</span></p>
+                <label>Quantity: <input type="number" value="1"></label>
+                <button class="add-cart">ADD TO CART</button>
+                <button class="view-details">VIEW DETAILS</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer>
+        <div class="footer-section">
+            <h3>Products</h3>
+            <ul>
+                <li>gaming laptops</li>
+                <li>ultra book</li>
+                <li>2-1 convertible laptop</li>
+                <li>mac book</li>
+                <li>chrome book</li>
+                <li>net book</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+                <li>user queries</li>
+                <li>user manual</li>
+                <li>contact us</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>About us</h3>
+            <ul>
+                <li>contact us</li>
+                <li>feedback</li>
+            </ul>
+        </div>
+        <div class="social-media">
+            <h3>Find us on</h3>
+            <div class="social-icons">
+                <a href="https://www.facebook.com">Facebook</a>
+                <a href="https://www.instagram.com">Instagram</a>
+                <a href="https://x.com/home?lang=en">Twitter</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
