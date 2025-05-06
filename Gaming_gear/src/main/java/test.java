@@ -10,10 +10,10 @@ public class test {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("✅ Connection successful!");
+            System.out.println(" Connection successful!");
             conn.close();
         } catch (Exception e) {
-            System.out.println("❌ Connection failed! Error: " + e.getMessage());
+            System.out.println(" Connection failed! Error: " + e.getMessage());
             e.printStackTrace();
         }
     }

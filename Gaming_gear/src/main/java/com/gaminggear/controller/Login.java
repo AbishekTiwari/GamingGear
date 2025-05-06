@@ -59,18 +59,18 @@ public class Login extends HttpServlet {
 
                         // Redirect based on role
                         if ("admin".equalsIgnoreCase(userRole)) {
-                            response.sendRedirect("admin-dashboard.html");
+                            response.sendRedirect("list-products");
                         } else {
-                            response.sendRedirect("index.html");
+                        	response.sendRedirect("index.jsp");
                         }
                     } else {
-                        response.sendRedirect(request.getContextPath() + "/pages/login.html?error=invalid");
+                        response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=invalid Email or Password!");
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/pages/login.html?error=database");
+            response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=database Error!");
         }
     } 
     
@@ -80,7 +80,7 @@ public class Login extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        response.sendRedirect("login.html"); 
+    	response.sendRedirect(request.getContextPath() + "/pages/login.jsp"); 
     }
     
     /**

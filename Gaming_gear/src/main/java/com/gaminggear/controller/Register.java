@@ -42,19 +42,19 @@ public class Register extends HttpServlet {
 
         // Block admin registration
         if ("admin".equalsIgnoreCase(role)) {
-            response.sendRedirect(request.getContextPath() + "/pages/register.html?error=admin");
+            response.sendRedirect(request.getContextPath() + "/pages/register.jsp?error=Register as admin not allowed");
             return;
         }
 
         // Validate password match
         if (!password.equals(confirmPassword)) {
-            response.sendRedirect(request.getContextPath() + "/pages/register.html?error=password");
+            response.sendRedirect(request.getContextPath() + "/pages/register.jsp?error=password mismatch");
             return;
         }
 
         try (Connection conn = DbConfig.getConnection()) {
             if (userExists(conn, email, username)) {
-                response.sendRedirect(request.getContextPath() + "/pages/register.html?error=exists");
+                response.sendRedirect(request.getContextPath() + "/pages/register.jsp?error=Email already exists");
                 return;
             }
 
@@ -67,12 +67,12 @@ public class Register extends HttpServlet {
                 ps.setString(5, password);
 
                 if (ps.executeUpdate() > 0) {
-                    response.sendRedirect(request.getContextPath() + "/pages/register.html?success=1");
+                    response.sendRedirect(request.getContextPath() + "/pages/register.jsp?success=1");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/pages/register.html?error=database");
+            response.sendRedirect(request.getContextPath() + "/pages/register.jsp?error=database");
         }
     }
     /**
