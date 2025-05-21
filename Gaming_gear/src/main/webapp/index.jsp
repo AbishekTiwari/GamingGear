@@ -20,7 +20,8 @@
         <ul class="nav-links">
         
             <li><a class="active" href="<%= request.getContextPath() %>/index.jsp">Home</a></li>
-            <li><a href="<%= request.getContextPath() %>/products" class="btn">Product</a></li>
+            <li><a href="<%= request.getContextPath() %>/products">Product</a></li>
+            <li><a href="<%= request.getContextPath() %>/pages/profile.jsp">Profile</a></li>
             <li><a class="active" href="#">Community</a></li>
             <li><a class="active" href="#">Support</a></li>
             <li><a class="active" href="<%= request.getContextPath() %>/pages/about.html">About</a></li>

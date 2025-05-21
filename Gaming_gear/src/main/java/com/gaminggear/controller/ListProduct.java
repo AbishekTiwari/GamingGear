@@ -1,7 +1,7 @@
 package com.gaminggear.controller;
 
-import com.gaminggear.config.DbConfig;
 import com.gaminggear.model.Product;
+import com.gaminggear.util.DbUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class ListProduct extends HttpServlet {
 
         List<Product> products = new ArrayList<>();
 
-        try (Connection conn = DbConfig.getConnection()) {
+        try (Connection conn = DbUtil.getConnection()) {
             String sql = "SELECT * FROM product";
             try (PreparedStatement stmt = conn.prepareStatement(sql);
                  ResultSet rs = stmt.executeQuery()) {

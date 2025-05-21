@@ -7,13 +7,13 @@
 
 
 
-package com.gaminggear.config;
+package com.gaminggear.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CookieConfig {
+public class CookieUtil {
 	
 	/**
      * Creates and adds a cookie to the response

@@ -3,20 +3,35 @@
  */
 
 
-package com.gaminggear.config;
+package com.gaminggear.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class SessionConfig {
+public class SessionUtil {
     
-    // Create a new session with user details
-    public static void createUserSession(HttpServletRequest request, String username, String role) {
-        HttpSession session = request.getSession();
-        session.setAttribute("username", username);
-        session.setAttribute("role", role);
-        session.setMaxInactiveInterval(30 * 60); // 30 minutes timeout
-    }
+	/**
+     * Creates a user session with all relevant attributes, including profile picture path
+     */
+	public static void createUserSession(HttpServletRequest request,
+            String username, int userId, String email,
+            String role, String firstName, String lastName,
+            String profilePicture,
+            String password, String salt) {
+HttpSession session = request.getSession();
+session.setAttribute("username", username);
+session.setAttribute("userid", userId);
+session.setAttribute("email", email);
+session.setAttribute("role", role);
+session.setAttribute("firstname", firstName);
+session.setAttribute("lastname", lastName);
+session.setAttribute("profilePicture", profilePicture);
+
+
+session.setAttribute("password", password);
+session.setAttribute("salt", salt);
+}
+
 
     // Check if user is logged in
     public static boolean isUserLoggedIn(HttpServletRequest request) {

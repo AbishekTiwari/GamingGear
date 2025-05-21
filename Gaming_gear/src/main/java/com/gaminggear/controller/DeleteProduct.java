@@ -1,6 +1,5 @@
 package com.gaminggear.controller;
 
-import com.gaminggear.config.DbConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.gaminggear.util.DbUtil;
+
 @WebServlet("/deleteProduct")
 public class DeleteProduct extends HttpServlet {
 	 private static final long serialVersionUID = 1L;
@@ -20,7 +21,7 @@ public class DeleteProduct extends HttpServlet {
         try {
             int productId = Integer.parseInt(request.getParameter("productid"));
             
-            try (Connection conn = DbConfig.getConnection()) {
+            try (Connection conn = DbUtil.getConnection()) {
                 String sql = "DELETE FROM product WHERE productid=?";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, productId);

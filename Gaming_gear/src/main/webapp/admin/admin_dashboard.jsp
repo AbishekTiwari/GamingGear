@@ -81,7 +81,7 @@
         <div class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" width="80px" height="80px"></div>
         <ul class="nav-links">
             <li><a href="${pageContext.request.contextPath}/index.html">Home</a></li>
-            <li><a href="${pageContext.request.contextPath}/products" class="btn">View Product Page</a></li>
+            <li><a href="${pageContext.request.contextPath}/products">View Product Page</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support</a></li>
             <li><a href="about.html">About</a></li>

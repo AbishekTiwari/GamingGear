@@ -1,6 +1,5 @@
 package com.gaminggear.controller;
 
-import com.gaminggear.config.DbConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +9,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import com.gaminggear.util.DbUtil;
 
 @WebServlet("/updateStock")
 public class UpdateStock extends HttpServlet {
@@ -21,7 +22,7 @@ public class UpdateStock extends HttpServlet {
             int productId = Integer.parseInt(request.getParameter("productid"));
             int newStock = Integer.parseInt(request.getParameter("newstock"));
             
-            try (Connection conn = DbConfig.getConnection()) {
+            try (Connection conn = DbUtil.getConnection()) {
                 String sql = "UPDATE product SET stock=? WHERE productid=?";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, newStock);

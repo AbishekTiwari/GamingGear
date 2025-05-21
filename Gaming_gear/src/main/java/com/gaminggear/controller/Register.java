@@ -14,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 
-import com.gaminggear.config.DbConfig;
+import com.gaminggear.util.DbUtil;
+import com.gaminggear.util.PasswordUtil;
 
 @WebServlet("/register")
 public class Register extends HttpServlet {
@@ -52,22 +53,25 @@ public class Register extends HttpServlet {
             return;
         }
 
-        try (Connection conn = DbConfig.getConnection()) {
+        try (Connection conn = DbUtil.getConnection()) {
             if (userExists(conn, email, username)) {
                 response.sendRedirect(request.getContextPath() + "/pages/register.jsp?error=Email already exists");
                 return;
             }
+            String salt = PasswordUtil.generateSalt();
+            String hashedPassword = PasswordUtil.hashPassword(password, salt);
 
-            String sql = "INSERT INTO user (firstname, lastname, username, email, password, role) VALUES (?, ?, ?, ?, ?, 'user')";
+            String sql = "INSERT INTO user (firstname, lastname, username, email, password, salt, role) VALUES (?, ?, ?, ?, ?, ?, 'user')";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, firstName);
                 ps.setString(2, lastName);
                 ps.setString(3, username);
                 ps.setString(4, email);
-                ps.setString(5, password);
+                ps.setString(5, hashedPassword);
+                ps.setString(6, salt);
 
                 if (ps.executeUpdate() > 0) {
-                    response.sendRedirect(request.getContextPath() + "/pages/register.jsp?success=1");
+                    response.sendRedirect(request.getContextPath() + "/login?success=1");
                 }
             }
         } catch (SQLException e) {

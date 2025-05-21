@@ -1,10 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    if (session.getAttribute("username") == null) {
-        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
-        return;
-    }
+    
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming Gear Profile</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    
     <style>
         .profile-container {
             max-width: 600px;
@@ -100,6 +100,18 @@
     </style>
 </head>
 <body>
+<%
+    String status = request.getParameter("status");
+    if ("passwordSuccess".equals(status)) {
+%>
+    <div class="alert alert-success">Password updated successfully.</div>
+<%
+    } else if ("passwordFail".equals(status)) {
+%>
+    <div class="alert alert-danger">Failed to update password. Please try again.</div>
+<%
+    }
+%>
     <nav class="navbar">
         <div class="logo">
             <img src="<%= request.getContextPath() %>/images/logo.png" width="80px" height="80px">
@@ -110,7 +122,7 @@
             <li><a href="#">Community</a></li>
             <li><a href="#">Support</a></li>
             <li><a href="<%= request.getContextPath() %>/pages/about.html">About</a></li>
-            <li><a href="<%= request.getContextPath() %>/pages/profile.jsp"><img src="<%= request.getContextPath() %>/images/user.png" alt="Profile" width="20px" height="20px"></a></li>
+            <li><a href="<%= request.getContextPath() %>/profile"><img src="<%= request.getContextPath() %>/images/user.png" alt="Profile" width="20px" height="20px"></a></li>
             <li><a href="<%= request.getContextPath() %>/cart"><img src="<%= request.getContextPath() %>/images/cart.png" alt="Cart" width="20px" height="20px"></a></li>
             <li><a href="<%= request.getContextPath() %>/logout">Logout</a></li>
         </ul>
@@ -118,49 +130,42 @@
 
     <div class="profile-container">
         <div class="profile-header">
-            <img src="<%= request.getContextPath() %>/<%= session.getAttribute("profilePicture") != null 
-    ? session.getAttribute("profilePicture") 
-    : "images/user.png" %>" 
-    class="profile-picture" alt="Profile">
-
-            <h2><%= session.getAttribute("username") %></h2>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">User ID</label>
-            <input type="text" class="form-input" 
-                   value="<%= session.getAttribute("userid") %>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input type="text" class="form-input" 
-                   value="<%= session.getAttribute("firstname") %>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input type="text" class="form-input" 
-                   value="<%= session.getAttribute("lastname") %>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Email address</label>
-            <input type="email" class="form-input" 
-                   value="<%= session.getAttribute("email") %>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Role</label>
-            <input type="text" class="form-input" 
-                   value="<%= session.getAttribute("role") %>" readonly>
-        </div>
-
-        <div class="button-group">
-            <a href="<%= request.getContextPath() %>/index.jsp" class="btn btn-secondary">Back</a>
-            <a href="<%= request.getContextPath() %>/edit-profile" class="btn btn-primary">Edit Profile</a>
-
-        </div>
+            <form action="<%= request.getContextPath() %>/edit-profile" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-input" name="firstname" value="<%= request.getAttribute("firstname") %>">
     </div>
+    <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-input" name="lastname" value="<%= request.getAttribute("lastname") %>">
+    </div>
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" name="email" value="<%= request.getAttribute("email") %>">
+    </div>
+    <div class="form-group">
+        <label class="form-label">Profile Picture</label>
+        <input type="file" class="form-input" name="profilePicture">
+    </div>
+
+    <div class="button-group">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+<h3>Change Password</h3>
+<form action="ChangePasswordServlet" method="post">
+    <label>Current Password:</label>
+    <input type="password" name="currentPassword" required /><br>
+
+    <label>New Password:</label>
+    <input type="password" name="newPassword" required /><br>
+
+    <label>Confirm New Password:</label>
+    <input type="password" name="confirmPassword" required /><br>
+
+    <button type="submit">Change Password</button>
+</form>
+    </div>
+</div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.gaminggear.controller;
 
-import com.gaminggear.config.DbConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,6 +11,9 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import com.gaminggear.util.DbUtil;
+
 import java.sql.Date;
 
 @WebServlet("/addProduct")
@@ -44,7 +46,7 @@ public class AddProduct extends HttpServlet {
         String imagePath = imageFileName;  // Save just the filename
 
         // Store in DB
-        try (Connection conn = DbConfig.getConnection()) {
+        try (Connection conn = DbUtil.getConnection()) {
             String sql = "INSERT INTO product (productname, brandname, Price, productspecification, releasedate, imagepath, stock) " +
                          "VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {

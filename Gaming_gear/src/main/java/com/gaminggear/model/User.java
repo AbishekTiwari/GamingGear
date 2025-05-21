@@ -9,8 +9,7 @@ public class User {
     private String password;
     private String role;
 
-    // Constructors
-    public User() {}
+    
 
     public User(int userId, String username, String email, String firstName, 
                 String lastName, String password, String role) {
@@ -85,15 +84,5 @@ public class User {
         return firstName + " " + lastName;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
+    
 }

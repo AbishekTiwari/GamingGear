@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.gaminggear.config.DbConfig;
+import com.gaminggear.util.DbUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class UpdateProduct extends HttpServlet {
             String specification = request.getParameter("productspecification");
             java.sql.Date releaseDate = java.sql.Date.valueOf(request.getParameter("releasedate"));
 
-            try (Connection conn = DbConfig.getConnection()) {
+            try (Connection conn = DbUtil.getConnection()) {
                 String sql = "UPDATE product SET productname=?, brandname=?, price=?, "
                            + "productspecification=?, releasedate=? WHERE productid=?";
                 

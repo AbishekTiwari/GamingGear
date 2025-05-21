@@ -68,7 +68,7 @@
         <div class="logo"><img src="../images/logo.png" width="80px" height="80px"></div>
         <ul class="nav-links">
             <li><a href="../index.html">Home</a></li>
-            <li><a href="${pageContext.request.contextPath}/products" class="btn">Product</a></li>
+            <li><a href="${pageContext.request.contextPath}/products" >Product</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support</a></li>
             <li><a href="about.html">About</a></li>
@@ -90,13 +90,7 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>
 
-                    <div class="input-group">
-                        <label for="role">Role</label>
-                        <select name="role">
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
+                    
 
                     <a href="register.jsp" class="new"><u>Create Account</u></a>
                     <a href="#" class="forgot-password">Forgot your Password?</a>

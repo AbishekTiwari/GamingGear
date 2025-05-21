@@ -4,13 +4,13 @@
  * @author Abishek Tiwari
  */
 
-package com.gaminggear.config;
+package com.gaminggear.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DbConfig {
+public class DbUtil {
 	// Database connection details (development setup)
     private static final String URL = "jdbc:mysql://localhost:3306/gaming_gear"; // Local MySQL
     private static final String USER = "root";      //Default admin user
