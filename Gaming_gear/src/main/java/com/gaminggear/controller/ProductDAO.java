@@ -2,64 +2,44 @@ package com.gaminggear.controller;
 
 import com.gaminggear.model.Product;
 import com.gaminggear.util.DbUtil;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
-@WebServlet("/products")
-public class ProductDAO extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        List<Product> products = new ArrayList<>();
-
-        try (Connection conn = DbUtil.getConnection()) {
-            String sql = "SELECT * FROM product";
-            try (PreparedStatement stmt = conn.prepareStatement(sql);
-                 ResultSet rs = stmt.executeQuery()) {
-
-                while (rs.next()) {
-                    Product p = new Product();
-                    p.setProductId(rs.getInt("productid"));
-                    p.setProductName(rs.getString("productname"));
-                    p.setBrandName(rs.getString("brandname"));
-                    p.setPrice(rs.getBigDecimal("Price"));
-                    p.setProductSpecification(rs.getString("productspecification"));
-                    p.setReleaseDate(rs.getDate("releasedate"));
-                    p.setImagePath(rs.getString("imagepath"));
-                    p.setStock(rs.getInt("stock"));
-
-                    products.add(p);
+public class ProductDAO {
+    public static Product getProductById(int productId) throws SQLException {
+        String sql = "SELECT * FROM product WHERE productid = ?";
+        Product product = null;
+        
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, productId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    product = new Product();
+                    product.setProductId(rs.getInt("productid"));
+                    product.setProductName(rs.getString("productname"));
+                    product.setBrandName(rs.getString("brandname"));
+                    product.setPrice(rs.getBigDecimal("price"));
+                    product.setProductSpecification(rs.getString("productspecification"));
+                    product.setReleaseDate(rs.getDate("releasedate"));
+                    product.setImagePath(rs.getString("imagepath"));
+                    product.setStock(rs.getInt("stock"));
                 }
-
-                // Check if data was fetched
-                if (products.isEmpty()) {
-                    System.out.println("No products found in the database.");
-                } else {
-                    System.out.println("Retrieved " + products.size() + " products from the database.");
-                }
-
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        return product;
+    }
 
-        // Log to verify request attribute setting
-        if (products.isEmpty()) {
-            System.out.println("Setting empty product list in request attribute.");
-        } else {
-            System.out.println("Setting product list in request attribute.");
+    public static void updateStock(int productId, int quantity) throws SQLException {
+        String sql = "UPDATE product SET stock = stock - ? WHERE productid = ?";
+        
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, productId);
+            stmt.executeUpdate();
         }
-
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/pages/product.jsp").forward(request, response);
     }
 }

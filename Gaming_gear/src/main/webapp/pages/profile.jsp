@@ -105,13 +105,13 @@
             <img src="<%= request.getContextPath() %>/images/logo.png" width="80px" height="80px">
         </div>
         <ul class="nav-links">
-            <li><a href="<%= request.getContextPath() %>/index.jsp">Home</a></li>
-            <li><a href="<%= request.getContextPath() %>/products">Products</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Support</a></li>
-            <li><a href="<%= request.getContextPath() %>/pages/about.html">About</a></li>
-            <li><a href="<%= request.getContextPath() %>/pages/profile.jsp"><img src="<%= request.getContextPath() %>/images/user.png" alt="Profile" width="20px" height="20px"></a></li>
-            <li><a href="<%= request.getContextPath() %>/cart"><img src="<%= request.getContextPath() %>/images/cart.png" alt="Cart" width="20px" height="20px"></a></li>
+            <li><a href="../index.jsp">Home</a></li>
+            <li><a href="<%= request.getContextPath() %>/list-products">Product</a></li>
+            
+            <li><a href="support.jsp">Support</a></li>
+            <li><a href="about.jsp">About</a></li>
+            <li><a href="login.jsp" class="user-icon"><img src="../images/user.png" alt="User" width="20px" height="20px"></a></li>
+            <li><a href="cart.jsp" class="icon"><img src="../images/cart.png" alt="Cart" width="20px" height="20px"></a></li> 
             <li><a href="<%= request.getContextPath() %>/logout">Logout</a></li>
         </ul>
     </nav>
@@ -162,5 +162,6 @@
 
         </div>
     </div>
+    <jsp:include page="../pages/footer.jsp" />
 </body>
 </html>

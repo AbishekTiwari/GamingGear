@@ -53,6 +53,6 @@ public class UpdateProduct extends HttpServlet {
             request.getSession().setAttribute("error", "Error updating product: " + e.getMessage());
         }
         
-        response.sendRedirect("list-products");
+        response.sendRedirect("list-products?action=admin");
     }
 }

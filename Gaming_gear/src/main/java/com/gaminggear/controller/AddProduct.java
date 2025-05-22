@@ -64,6 +64,6 @@ public class AddProduct extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("products");
+        response.sendRedirect(request.getContextPath() + "/list-products");
     }
 }

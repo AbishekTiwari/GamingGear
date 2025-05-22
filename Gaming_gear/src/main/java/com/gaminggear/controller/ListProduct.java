@@ -20,34 +20,75 @@ public class ListProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Get search query parameter from request
+        String searchQuery = request.getParameter("query");
+        
+        // Initialize empty product list
         List<Product> products = new ArrayList<>();
 
         try (Connection conn = DbUtil.getConnection()) {
+            // Base SQL query
             String sql = "SELECT * FROM product";
-            try (PreparedStatement stmt = conn.prepareStatement(sql);
-                 ResultSet rs = stmt.executeQuery()) {
+            
+            // Add search condition if query exists
+            if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                sql += " WHERE LOWER(productname) LIKE ? OR LOWER(brandname) LIKE ?";
+            }
 
-                while (rs.next()) {
-                    Product p = new Product();
-                    p.setProductId(rs.getInt("productid"));
-                    p.setProductName(rs.getString("productname"));
-                    p.setBrandName(rs.getString("brandname"));
-                    p.setPrice(rs.getBigDecimal("Price"));
-                    p.setProductSpecification(rs.getString("productspecification"));
-                    p.setReleaseDate(rs.getDate("releasedate"));
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                // Set parameters if search query exists
+                if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                    // Format search term for partial matching
+                    String likeTerm = "%" + searchQuery.toLowerCase() + "%";
+                    stmt.setString(1, likeTerm);
+                    stmt.setString(2, likeTerm);
+                }
 
-                    // Optional: these must exist in DB schema to avoid errors
-                    try { p.setImagePath(rs.getString("imagepath")); } catch (SQLException ignore) {}
-                    try { p.setStock(rs.getInt("stock")); } catch (SQLException ignore) {}
+                // Execute query and process results
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Product product = new Product();
+                        
+                        // Set core product properties
+                        product.setProductId(rs.getInt("productid"));
+                        product.setProductName(rs.getString("productname"));
+                        product.setBrandName(rs.getString("brandname"));
+                        product.setPrice(rs.getBigDecimal("Price"));
+                        product.setProductSpecification(rs.getString("productspecification"));
+                        product.setReleaseDate(rs.getDate("releasedate"));
 
-                    products.add(p);
+                        // Handle optional fields with error catching
+                        try {
+                            product.setImagePath(rs.getString("imagepath"));
+                        } catch (SQLException e) {
+                            // Log missing column error if needed
+                        }
+                        
+                        try {
+                            product.setStock(rs.getInt("stock"));
+                        } catch (SQLException e) {
+                            // Log missing column error if needed
+                        }
+
+                        products.add(product);
+                    }
                 }
             }
         } catch (SQLException e) {
+            // Log database errors properly in production
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Database error occurred");
         }
 
-        request.setAttribute("productList", products);
-        request.getRequestDispatcher("/admin/admin_dashboard.jsp").forward(request, response);
+        // Set attributes for JSP
+        request.setAttribute("products", products); // Correct attribute name for JSP
+        request.setAttribute("searchQuery", searchQuery); // Preserve search term
+        
+        // Forward to appropriate view
+        String action = request.getParameter("action");
+        String targetPage = "admin".equals(action) 
+                ? "/admin/admin_dashboard.jsp" 
+                : "/pages/product.jsp";
+        request.getRequestDispatcher(targetPage).forward(request, response);
     }
 }

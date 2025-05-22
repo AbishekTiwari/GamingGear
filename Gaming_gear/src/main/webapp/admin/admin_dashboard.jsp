@@ -1,28 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*, com.gaminggear.model.Product" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.gaminggear.model.Product" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    
-<style>
-    .messages {
-        margin: 20px 0;
-    }
-    .success {
-        color: green;
-        padding: 10px;
-        background: #e8f5e9;
-    }
-    .error {
-        color: red;
-        padding: 10px;
-        background: #ffebee;
-    }
 
-    
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #eef0f4;
@@ -74,36 +60,119 @@
         th {
             background-color: #f4f4f4;
         }
+        .messages {
+            margin: 20px 0;
+        }
+        .success {
+            color: green;
+            padding: 10px;
+            background: #e8f5e9;
+        }
+        .error {
+            color: red;
+            padding: 10px;
+            background: #ffebee;
+        }
+        
+.navbar {
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 4px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu a {
+    padding: 10px 20px;
+    display: block;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Adjust existing styles to accommodate dropdown */
+.nav-links li {
+    position: relative;
+    padding: 15px 0;
+}
+
+.profile-link::after {
+    content: "▼";
+    font-size: 0.6em;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
     </style>
 </head>
 <body>
 <nav class="navbar">
-        <div class="logo"><img src="${pageContext.request.contextPath}/images/logo.png" width="80px" height="80px"></div>
-        <ul class="nav-links">
-            <li><a href="${pageContext.request.contextPath}/index.html">Home</a></li>
-            <li><a href="${pageContext.request.contextPath}/products">View Product Page</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Support</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="${pageContext.request.contextPath}/pages/login.jsp" class="user-icon"><img src="${pageContext.request.contextPath}/images/user.png" alt="User" width="20px" height="20px"></a></li>
-            <li> <a href="${pageContext.request.contextPath}/pages/cart.html" class="icon"><img src="${pageContext.request.contextPath}/images/cart.png" alt="Cart" width="20px" height="20px"></a></li> 
-        </ul>
-    </nav>
+    <div class="logo">
+        <img src="${pageContext.request.contextPath}/images/logo.png" width="80px" height="80px">
+    </div>
+    <ul class="nav-links">
+        <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
+        <li><a href="${pageContext.request.contextPath}/list-products">View Product Page</a></li>
+        <li class="dropdown">
+         <a class="active" href="<%= request.getContextPath() %>/pages/login.jsp" class="user-icon">
+         </a>
+         <!-- Dropdown Menu -->
+            <ul class="dropdown-menu">
+                <li><a href="<%= request.getContextPath() %>/pages/profile.jsp">Profile</a></li>
+            </ul>
+            <img src="<%= request.getContextPath() %>/images/user.png" alt="User" width="20px" height="20px">
+        </li>
+        <li><a class="active" href="<%= request.getContextPath() %>/pages/cart.jsp" class="icon">
+            
+        </a></li>
+    </ul>
+</nav>
+
 <h1>Admin Dashboard</h1>
+
 <div class="messages">
-    <% if (request.getSession().getAttribute("message") != null) { %>
-        <div class="success"><%= request.getSession().getAttribute("message") %></div>
-        <% request.getSession().removeAttribute("message"); %>
-    <% } %>
-    <% if (request.getSession().getAttribute("error") != null) { %>
-        <div class="error"><%= request.getSession().getAttribute("error") %></div>
-        <% request.getSession().removeAttribute("error"); %>
-    <% } %>
+    <c:if test="${not empty sessionScope.message}">
+        <div class="success">${sessionScope.message}</div>
+        <c:remove var="message" scope="session"/>
+    </c:if>
+    <c:if test="${not empty sessionScope.error}">
+        <div class="error">${sessionScope.error}</div>
+        <c:remove var="error" scope="session"/>
+    </c:if>
 </div>
+
 <!-- Add Product -->
 <details>
     <summary>Add Product</summary>
-    <form action="addProduct" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/addProduct" method="post" enctype="multipart/form-data">
         <input type="text" name="productname" placeholder="Product Name" required>
         <input type="text" name="brandname" placeholder="Brand Name" required>
         <input type="number" step="0.01" name="price" placeholder="Price" required>
@@ -118,19 +187,12 @@
 <!-- Update Product -->
 <details>
     <summary>Update Product</summary>
-    <form action="updateProduct" method="post">
+    <form action="${pageContext.request.contextPath}/updateProduct" method="post">
         <select name="productid" required>
             <option value="">Select Product</option>
-            <%
-                List<Product> list = (List<Product>) request.getAttribute("productList");
-                if (list != null) {
-                    for (Product p : list) {
-            %>
-                <option value="<%= p.getProductId() %>"><%= p.getProductName() %></option>
-            <%
-                    }
-                }
-            %>
+            <c:forEach var="product" items="${products}">
+                <option value="${product.productId}">${product.productName}</option>
+            </c:forEach>
         </select>
         <input type="text" name="productname" placeholder="New Name" required>
         <input type="text" name="brandname" placeholder="New Brand" required>
@@ -144,18 +206,12 @@
 <!-- Delete Product -->
 <details>
     <summary>Delete Product</summary>
-    <form action="deleteProduct" method="post">
+    <form action="${pageContext.request.contextPath}/deleteProduct" method="post">
         <select name="productid" required>
             <option value="">Select Product</option>
-            <%
-                if (list != null) {
-                    for (Product p : list) {
-            %>
-                <option value="<%= p.getProductId() %>"><%= p.getProductName() %></option>
-            <%
-                    }
-                }
-            %>
+            <c:forEach var="product" items="${products}">
+                <option value="${product.productId}">${product.productName}</option>
+            </c:forEach>
         </select>
         <input type="submit" value="Delete Product">
     </form>
@@ -164,18 +220,12 @@
 <!-- Update Stock -->
 <details>
     <summary>Update Stock</summary>
-    <form action="updateStock" method="post">
+    <form action="${pageContext.request.contextPath}/updateStock" method="post">
         <select name="productid" required>
             <option value="">Select Product</option>
-            <%
-                if (list != null) {
-                    for (Product p : list) {
-            %>
-                <option value="<%= p.getProductId() %>"><%= p.getProductName() %></option>
-            <%
-                    }
-                }
-            %>
+            <c:forEach var="product" items="${products}">
+                <option value="${product.productId}">${product.productName}</option>
+            </c:forEach>
         </select>
         <input type="number" name="newstock" placeholder="New Stock Quantity" required>
         <input type="submit" value="Update Stock">
@@ -192,40 +242,40 @@
 </details>
 
 <footer>
-            <div class="footer-section">
-                <h3>Products</h3>
-                <ul>
-                    <li>gaming laptops</li>
-                    <li>ultra book</li>
-                    <li>2-1 convertible laptop</li>
-                    <li>mac book</li>
-                    <li>chrome book</li>
-                    <li>net book</li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li>user queries</li>
-                    <li>user manual</li>
-                    <li>contact us</li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>About us</h3>
-                <ul>
-                    <li>contact us</li>
-                    <li>feedback</li>
-                </ul>
-            </div>
-            <div class="social-media">
-                <h3>Find us on</h3>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com">Facebook</a>
-                    <a href="https://www.instagram.com">Instagram</a>
-                    <a href="https://x.com/home?lang=en">Twitter</a>
-                </div>
-            </div>
-        </footer>
+    <div class="footer-section">
+        <h3>Products</h3>
+        <ul>
+            <li>gaming laptops</li>
+            <li>ultra book</li>
+            <li>2-1 convertible laptop</li>
+            <li>mac book</li>
+            <li>chrome book</li>
+            <li>net book</li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Support</h3>
+        <ul>
+            <li>user queries</li>
+            <li>user manual</li>
+            <li>contact us</li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>About us</h3>
+        <ul>
+            <li>contact us</li>
+            <li>feedback</li>
+        </ul>
+    </div>
+    <div class="social-media">
+        <h3>Find us on</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com">Facebook</a>
+            <a href="https://www.instagram.com">Instagram</a>
+            <a href="https://x.com/home?lang=en">Twitter</a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -79,7 +79,7 @@ public class Login extends HttpServlet {
 
                             // Redirect
                             if ("admin".equalsIgnoreCase(userRole)) {
-                                response.sendRedirect("list-products");
+                            	response.sendRedirect(request.getContextPath() + "/list-products?action=admin");
                             } else {
                                 response.sendRedirect("index.jsp");
                             }

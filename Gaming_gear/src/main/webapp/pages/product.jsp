@@ -119,34 +119,43 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        /* Add to existing navbar CSS */
+.search-form {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+    .search-form {
+        order: 3;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .nav-links {
+        order: 2;
+    }
+}
     </style>
 </head>
 <body>
 
    
-    <nav class="navbar">
-        <div class="logo">
-            <img src="<%= request.getContextPath() %>/images/logo.png" width="80px" height="80px">
-        </div>
-        <ul class="nav-links">
-            <li><a class="active" href="<%= request.getContextPath() %>/index.jsp">Home</a></li>
-            <li><a href="<%= request.getContextPath() %>/products">Product</a></li>
-            <li><a class="active" href="#">Community</a></li>
-            <li><a class="active" href="#">Support</a></li>
-            <li><a class="active" href="<%= request.getContextPath() %>/pages/about.html">About</a></li>
-            <li>
-                <a class="active" href="<%= request.getContextPath() %>/pages/login.jsp" class="user-icon">
-                    <img src="<%= request.getContextPath() %>/images/user.png" alt="User" width="20px" height="20px">
-                </a>
-            </li>
-            <li>
-                <a class="active" href="<%= request.getContextPath() %>/pages/cart.jsp" class="icon">
-                    <img src="<%= request.getContextPath() %>/images/cart.png" alt="Cart" width="20px" height="20px">
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    <jsp:include page="../pages/header.jsp" />
+<!-- Add Search Form -->
+    <form class="d-flex search-form" action="<%= request.getContextPath() %>/list-products" method="GET">
+        <input class="form-control me-2" 
+               type="search" 
+               name="query"
+               placeholder="Search products..." 
+               aria-label="Search"
+               value="${searchQuery}">
+        <button class="btn btn-outline-danger" type="submit">Search</button>
+    </form>
     
     <div class="container py-5">
         <h1 class="text-center mb-5">Explore Our Gaming Collection</h1>
@@ -178,29 +187,31 @@
                                             </c:forTokens>
                                         </ul>
                                     </div>
-                                    <!-- Quantity Controls -->
-                                    <div class="quantity-controls">
-                                        <label for="quantity-${product.productId}">Quantity:</label>
-                                        <input type="number" 
-                                               class="form-control" 
-                                               id="quantity-${product.productId}" 
-                                               name="quantity" 
-                                               min="1" 
-                                               max="${product.stock}" 
-                                               value="1">
-                                    </div>
+                                    
 
                                     <!-- Action Buttons -->
-                                    <div class="d-flex gap-2 mt-3">
-                                        <button class="btn btn-outline-primary btn-custom w-50"
-                                                onclick="addToCart('${product.productId}', document.getElementById('quantity-${product.productId}').value)">
-                                            Add to Cart
-                                        </button>
-                                        <button class="btn btn-primary btn-custom w-50"
-                                                onclick="buyNow('${product.productId}', document.getElementById('quantity-${product.productId}').value)">
-                                            Buy Now
-                                        </button>
-                                    </div>
+                                    <!-- In product.jsp, modify the action buttons section -->
+<div class="d-flex gap-2 mt-3">
+    <form action="${pageContext.request.contextPath}/cart" method="post" style="width: 50%">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="productId" value="${product.productId}">
+        <input type="number" name="quantity" 
+               value="1" min="1" max="${product.stock}"
+               class="form-control mb-2">
+        <button type="submit" class="btn btn-outline-primary btn-custom w-100">
+            Add to Cart
+        </button>
+    </form>
+    
+    <form action="${pageContext.request.contextPath}/checkout" method="post" style="width: 50%">
+        <input type="hidden" name="productId" value="${product.productId}">
+        <input type="hidden" name="quantity" 
+               value="1" class="form-control">
+        <button type="submit" class="btn btn-primary btn-custom w-100">
+            Buy Now
+        </button>
+    </form>
+</div>
 
                                     <div class="mt-auto">
                                         <small class="text-muted">Released: ${product.releaseDate}</small>
@@ -220,5 +231,19 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+function validateSearch() {
+    const searchInput = document.querySelector('input[name="query"]');
+    if (searchInput.value.trim().length < 2) {
+        alert('Please enter at least 2 characters for search');
+        return false;
+    }
+    return true;
+}
+
+// Attach validation to form
+document.querySelector('.search-form').addEventListener('submit', validateSearch);
+</script>
+
 </body>
 </html>

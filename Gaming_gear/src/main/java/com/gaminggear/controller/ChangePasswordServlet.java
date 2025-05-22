@@ -13,7 +13,12 @@ import java.io.IOException;
 
 @WebServlet("/ChangePasswordServlet")
 public class ChangePasswordServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
         // Ensure the session and user attributes exist

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,18 +119,7 @@
     </Style>
 </head>
 <body>
-    <nav class="navbar">
-            <div class="logo"><img src="../images/logo.png" width="80px" height="80px"></div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="product.html">Product</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Support</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="login.html" class="user-icon"><img src="../images/user.png" alt="User" width="20px" height="20px"></a></li>
-                <li> <a href="cart.html" class="icon"><img src="../images/cart.png" alt="Cart" width="20px" height="20px"></a></li> 
-            </ul>
-        </nav>
+    <jsp:include page="../pages/header.jsp" />
         <div class="about">
             <h2>About Us </h2>
                 <p class="about">Welcome to Gaming Gears, where we make printing super cool and easy! We have awesome Laptops from top brands that are perfect for everyone, whether you're a professional or a small business .
@@ -197,41 +188,6 @@
                 <button type="submit">Submit</button>
             </form>
         </section>
-        <footer>
-            <div class="footer-section">
-                <h3>Products</h3>
-                <ul>
-                    <li>gaming laptops</li>
-                    <li>ultra book</li>
-                    <li>2-1 convertible laptop</li>
-                    <li>mac book</li>
-                    <li>chrome book</li>
-                    <li>net book</li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li>user queries</li>
-                    <li>user manual</li>
-                    <li>contact us</li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>About us</h3>
-                <ul>
-                    <li>contact us</li>
-                    <li>feedback</li>
-                </ul>
-            </div>
-            <div class="social-media">
-                <h3>Find us on</h3>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com">Facebook</a>
-                    <a href="https://www.instagram.com">Instagram</a>
-                    <a href="https://x.com/home?lang=en">Twitter</a>
-                </div>
-            </div>
-        </footer>
+        <jsp:include page="../pages/footer.jsp" />
     </body>
     </html>

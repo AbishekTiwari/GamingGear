@@ -15,25 +15,7 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo"><img src="<%= request.getContextPath() %>/images/logo.png" width="80px" height="80px"></div>
-        <ul class="nav-links">
-        
-            <li><a class="active" href="<%= request.getContextPath() %>/index.jsp">Home</a></li>
-            <li><a href="<%= request.getContextPath() %>/products">Product</a></li>
-            <li><a href="<%= request.getContextPath() %>/pages/profile.jsp">Profile</a></li>
-            <li><a class="active" href="#">Community</a></li>
-            <li><a class="active" href="#">Support</a></li>
-            <li><a class="active" href="<%= request.getContextPath() %>/pages/about.html">About</a></li>
-            <li><a class="active" href="<%= request.getContextPath() %>/pages/login.jsp" class="user-icon">
-            
-                <img src="<%= request.getContextPath() %>/images/user.png" alt="User" width="20px" height="20px">
-            </a></li>
-            <li><a class="active" href="<%= request.getContextPath() %>/pages/cart.jsp" class="icon">
-                <img src="<%= request.getContextPath() %>/images/cart.png" alt="Cart" width="20px" height="20px">
-            </a></li>
-        </ul>
-    </nav>
+    <jsp:include page="/pages/header.jsp" />
 
     <div class="human">
         <div class="slider">
